@@ -47,7 +47,7 @@ Dự án tách biệt hoàn toàn Logic trò chơi (Simulation) dựa trên mô 
   │                                                      │
   ▼ (Cập nhật ECS Component)                             ▼ (Cập nhật ECS Component)
 [Unity View: Vẽ X lên bàn cờ]                           [Unity View: Vẽ O lên bàn cờ]
-```text
+```
 **### 2. Quản lý Cấu trúc Thư mục trong Assets/ **
 
 Assets/
