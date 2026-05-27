@@ -48,49 +48,70 @@ Dự án tách biệt hoàn toàn Logic trò chơi (Simulation) dựa trên mô 
   ▼ (Cập nhật ECS Component)                             ▼ (Cập nhật ECS Component)
 [Unity View: Vẽ X lên bàn cờ]                           [Unity View: Vẽ O lên bàn cờ]
 ```
-**### 2. Quản lý Cấu trúc Thư mục trong Assets/ **
+## 2. Quản lý Cấu trúc Thư mục trong `Assets/`
 
 Assets/
- ├── Photon/                 # SDK Photon Realtime & Quantum Core
- └── _Project/               # Thư mục chính chứa mã nguồn trò chơi
-      ├── QuantumUser/       # Tầng mô phỏng thuần C# (Quantum Simulation)
-      │    ├── Simulation/   # Toàn bộ Logic cốt lõi của game Tic-Tac-Toe
-      │    │    ├── TicTacToeSystem.cs   # Hệ thống ECS quản lý lượt đi, lượt đánh và kiểm tra thắng cuộc
-      │    │    ├── Command.qtn          # Định nghĩa cấu trúc lệnh gửi vị trí bấm ô cờ (Input)
-      │    │    └── DSL.qtn              # Định nghĩa dữ liệu bàn cờ (Board Component, Player Data Struct)
-      └── UnityUser/         # Tầng hiển thị và tương tác người dùng (Unity View)
-           ├── Scenes/       # Các màn chơi chính
-           │    ├── MainMenu.unity  # Scene phòng chờ, kết nối mạng và tìm phòng
-           │    └── QuantumGameScene.unity       # Scene bàn cờ thực tế khi vào trận
-           ├── Simulation/Scripts/      # C# Scripts kết nối Unity UI với Quantum Session
-           |                ├── PlayerController.cs   # Xử lý logic chính của game
-           │                └── PlayerSpawner.cs    # Lắng nghe player vào setup lobby với quân X O của player
-           └── Prefabs/      # Giao diện ô cờ, bàn cờ, hiệu ứng và UI Elements
+├── Photon/                         # SDK Photon Realtime & Quantum Core
+└── _Project/                       # Thư mục chính chứa mã nguồn trò chơi
+├── QuantumUser/                 # Tầng mô phỏng thuần C# (Quantum Simulation)
+│   └── Simulation/             # Toàn bộ Logic cốt lõi của game Tic-Tac-Toe
+│       ├── TicTacToeSystem.cs  # Hệ thống ECS quản lý lượt đi, lượt đánh và kiểm tra thắng cuộc
+│       ├── Command.qtn         # Định nghĩa cấu trúc lệnh gửi vị trí bấm ô cờ (Input)
+│       └── DSL.qtn             # Định nghĩa dữ liệu bàn cờ (Board Component, Player Data Struct)
+└── UnityUser/                  # Tầng hiển thị và tương tác người dùng (Unity View)
+├── Scenes/                 # Các màn chơi chính
+│   ├── MainMenu.unity      # Scene phòng chờ, kết nối mạng và tìm phòng
+│   └── QuantumGameScene.unity  # Scene bàn cờ thực tế khi vào trận
+├── Simulation/Scripts/     # C# Scripts kết nối Unity UI với Quantum Session
+│   ├── PlayerController.cs # Xử lý logic chính của game
+│   └── PlayerSpawner.cs    # Lắng nghe player vào setup lobby với quân X O của player
+└── Prefabs/                # Giao diện ô cờ, bàn cờ, hiệu ứng và UI Elements
 
-**🔬 Chi Tiết Kỹ Thuật (Technical Specification)**
-  - Số thực cố định (Fixed Point - FP): Tránh việc sử dụng float hay double vốn có thể gây sai lệch dấu thập phân giữa các thiết bị/nền tảng khác nhau. Toàn bộ tính toán trạng thái game sử dụng kiểu FP của Quantum để đảm bảo tính đồng nhất tuyệt đối.
+## 🔬 Chi Tiết Kỹ Thuật (Technical Specification)
 
-  - Quantum Commands: Khi người chơi chạm vào một ô trên bàn cờ, một Command chứa tọa độ ô cờ được gửi lên máy chủ Quantum. Lệnh này sau đó được phát tán đồng thời tới cả 2 máy để hệ thống TicTacToeSystem xử lý trên dữ liệu gốc.
+### 🔢 Số Thực Cố Định (Fixed Point - FP)
+- Tránh sử dụng `float` hay `double` vốn có thể gây sai lệch dấu thập phân giữa các thiết bị/nền tảng
+- Toàn bộ tính toán trạng thái game sử dụng kiểu `FP` của Quantum để đảm bảo tính đồng nhất tuyệt đối
 
-  - Tách biệt hiển thị: Khối Unity UI chỉ đóng vai trò "đọc" dữ liệu từ Frame hiện tại của Quantum và hiển thị lên màn hình. Không có bất kỳ logic game nào được viết bên phía Unity Component.
+### 📡 Quantum Commands
+- Khi người chơi chạm vào một ô, một **Command** chứa tọa độ ô cờ được gửi lên máy chủ Quantum
+- Lệnh được phát tán đồng thời tới cả 2 máy để hệ thống `TicTacToeSystem` xử lý trên dữ liệu gốc
 
-**🚀 Hướng Dẫn Cài Đặt & Chạy Dự Án (Installation & Setup)**
-  Yêu cầu hệ thống (Prerequisites)
-    - Unity Editor: Phiên bản 2022.3.40f1 (hoặc các phiên bản 2022.3 LTS tương thích).
-    
-    - Photon Quantum SDK: [Điền phiên bản Quantum sử dụng, ví dụ: 2.1 / 3.0].
-  Các bước thực hiện:
-    - Clone mã nguồn từ GitHub
-    - Cấu hình Photon AppID:
-        Truy cập Photon Engine Dashboard.
-        Tạo một ứng dụng mới với AppKind là Quantum, sao chép đoạn AppId.
-        Trong Unity Editor, dán đoạn AppId này vào cửa sổ cấu hình mạng của Photon Quantum.
-    - Chạy và Kiểm thử (Testing):
+### 🖥️ Tách Biệt Hiển Thị (View Separation)
+- Khối Unity UI chỉ đóng vai trò **"đọc"** dữ liệu từ Frame hiện tại của Quantum và render lên màn hình
+- Không có bất kỳ logic game nào được viết bên phía Unity Component
 
-        Mở scene MainMenu tại thư mục Assets/_Project/UnityUser/Scenes/.
+---
 
-        Để kiểm tra tính năng Online 2 người, bạn có thể tạo bản Build (File -> Build Settings) ra một cửa sổ riêng, hoặc sử dụng công cụ kiểm thử local chạy 2 instances của hệ thống Quantum phát triển đi kèm nhằm giả lập 2 người chơi cùng nhấn kết nối vào Lobby và ghép trận.
-**👤 Tác Giả (Author)**
-  Họ và Tên: Nguyễn Đức Huy
-  Email: huyco14022004@gmail.com
-  LinkedIn: https://www.linkedin.com/in/nguy%E1%BB%85n-%C4%91%E1%BB%A9c-huy-081a73411/
+## 🚀 Hướng Dẫn Cài Đặt & Chạy Dự Án (Installation & Setup)
+
+### 🖥️ Yêu Cầu Hệ Thống (Prerequisites)
+- **Unity Editor:** Phiên bản `2022.3.40f1` (hoặc các phiên bản 2022.3 LTS tương thích)
+- **Photon Quantum SDK:** `[Điền phiên bản Quantum sử dụng, ví dụ: 2.1 / 3.0]`
+
+### 📋 Các Bước Thực Hiện
+
+**1. Clone mã nguồn từ GitHub**
+```bash
+git clone https://github.com/your-username/your-repo.git
+```
+
+**2. Cấu hình Photon AppID**
+- Truy cập [Photon Engine Dashboard](https://dashboard.photonengine.com)
+- Tạo một ứng dụng mới với **AppKind** là `Quantum`, sao chép `AppId`
+- Trong Unity Editor, dán `AppId` vào cửa sổ cấu hình mạng của Photon Quantum
+
+**3. Chạy và Kiểm thử (Testing)**
+- Mở scene `MainMenu` tại `Assets/_Project/UnityUser/Scenes/`
+- Để test Online 2 người: tạo bản Build qua **File → Build Settings** ra một cửa sổ riêng
+- Hoặc sử dụng công cụ kiểm thử local của Quantum để giả lập 2 instances kết nối vào Lobby và ghép trận
+
+---
+
+## 👤 Tác Giả (Author)
+
+| | |
+|---|---|
+| **Họ và Tên** | Nguyễn Đức Huy |
+| **Email** | [huyco14022004@gmail.com](mailto:huyco14022004@gmail.com) |
+| **LinkedIn** | [nguyễn-đức-huy](https://www.linkedin.com/in/nguy%E1%BB%85n-%C4%91%E1%BB%A9c-huy-081a73411/) |
