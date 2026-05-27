@@ -49,7 +49,7 @@ Dự án tách biệt hoàn toàn Logic trò chơi (Simulation) dựa trên mô 
 [Unity View: Vẽ X lên bàn cờ]                           [Unity View: Vẽ O lên bàn cờ]
 ```
 ## 2. Quản lý Cấu trúc Thư mục trong `Assets/`
-
+```text
 Assets/
 ├── Photon/                         # SDK Photon Realtime & Quantum Core
 └── _Project/                       # Thư mục chính chứa mã nguồn trò chơi
@@ -66,7 +66,7 @@ Assets/
 │   ├── PlayerController.cs # Xử lý logic chính của game
 │   └── PlayerSpawner.cs    # Lắng nghe player vào setup lobby với quân X O của player
 └── Prefabs/                # Giao diện ô cờ, bàn cờ, hiệu ứng và UI Elements
-
+```
 ## 🔬 Chi Tiết Kỹ Thuật (Technical Specification)
 
 ### 🔢 Số Thực Cố Định (Fixed Point - FP)
@@ -93,7 +93,7 @@ Assets/
 
 **1. Clone mã nguồn từ GitHub**
 ```bash
-git clone https://github.com/your-username/your-repo.git
+git clone https://github.com/HuyDevGame1402/Tic-Tac-Toe-Unity-Game-Photon-Quantum.git
 ```
 
 **2. Cấu hình Photon AppID**
