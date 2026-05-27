@@ -1,0 +1,99 @@
+﻿input
+{
+	FP x;
+	FP y;
+	int xBoard;
+	int yBoard;
+	int Value;
+	button OnCreateProtptype;
+	bool CreateProtoype;
+	bool AddBoard;
+	bool NewGame;
+	button StartGame;
+	button InitGame;
+	FPVector2 PositionCreatePrototype;
+	int PosArray;
+}
+
+component PlayerInfo
+{
+	player_ref PlayerRef;
+	player_ref CurrentPlayerRef;
+	player_ref OrtherPlayerRef;
+	asset_ref<EntityPrototype> Cricle;
+	asset_ref<EntityPrototype> Cross;
+	asset_ref<EntityPrototype> LineWiner;
+	PlayerType PlayerType;
+	int ValueBoard;
+	array<int>[9] Value;
+	bool isPlaying;
+	bool isResetGame;
+	int score;
+	EntityRef gameManager;
+}
+component BulletInfo
+{
+	FPVector2 Direction;
+	EntityRef Owner;
+	PlayerFacing Facing;
+	FP Speed;
+}
+component LineWiner
+{
+	RotationLineWiner direction;
+	int rotation;
+	[FreeOnComponentRemoved]
+    list<EntityRef> PlayerList;
+
+	[FreeOnComponentRemoved]
+    list<int> valueList;
+}
+
+component GameViewInfo
+{
+	EntityRef playerLocal;
+}
+
+
+enum RotationLineWiner
+{
+	Vertical, Horizontal, DiagonalRight, DiagonalLeft
+}
+enum PlayerFacing
+{
+	Left, Right
+}
+
+enum PlayerType
+{
+	None, Cross, Cricle
+}
+
+enum GameState
+{
+	Playing, Win, Lose, Tie, Reset
+}
+
+global
+{
+	GameState CurrentGameState;
+	PlayerType localPlayerType;
+	bool isReset;
+	bool isInitGame;
+	int rotation;
+	int winIndex;
+	int valueWiner;
+	int scoreCross;
+	int scoreCircle;
+
+	bool isStartGameList;
+	array<EntityRef>[4] playerArray;
+	[FreeOnComponentRemoved]
+    list<EntityRef> playerList;
+}
+
+signal OnPlayerWin();
+signal OnPlayerResetGame();
+signal OnPlayerLose();
+signal OnPlayerTie();
+signal OnPlayerMove(EntityRef gameManager, int value, int pos);
