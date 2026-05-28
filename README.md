@@ -20,8 +20,6 @@ Một dự án game cờ ca-rô (Tic-Tac-Toe) trực tuyến dành cho 2 ngườ
 - **Logic Gameplay 2 Người Chuẩn Chỉnh:**
   - Tự động phân chia lượt đi (Player 1 đi trước - X, Player 2 đi sau - O) dựa trên thông tin Actor ID từ server Photon.
   - Hệ thống tự động kiểm tra điều kiện thắng/thua/hòa ngay lập tức ở mỗi lượt đi tại tầng Simulation.
-  - Tự động ngắt kết nối và xử lý khi một trong hai người chơi thoát trận giữa chừng.
-
 ---
 
 ## 🛠️ Kiến Trúc Hệ Thống (Architecture & Code Structure)
